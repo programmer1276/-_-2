@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  primary:
+    image: postgres:15
+    container_name: pg_primary
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: secretpassword
+      POSTGRES_DB: lab_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - primary_data:/var/lib/postgresql/data
+
+  backup:
+    image: postgres:15
+    container_name: pg_backup
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: secretpassword
+    ports:
+      - "5433:5432"
+    volumes:
+      - backup_data:/var/lib/postgresql/data
+      - backup_archives:/backups
+
+volumes:
+  primary_data:
+  backup_data:
+  backup_archives:
